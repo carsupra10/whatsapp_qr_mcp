@@ -1,0 +1,48 @@
+# Source files (not needed for API endpoints)
+src/
+dist/
+scripts/
+
+# Development files
+node_modules/
+.git/
+.wwebjs_auth/
+.wwebjs_cache/
+
+# Queue and session data
+*.db
+*.db-journal
+queue.json
+
+# Documentation (not needed for deployment)
+*.md
+!README.md
+
+# Environment
+.env
+.env.local
+
+# Build artifacts
+*.log
+npm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Examples and docs
+examples/
+public/
+
+# TypeScript config (not needed for API)
+tsconfig.json
+
+# Docker files
+Dockerfile
+docker-compose.yml
+.dockerignore

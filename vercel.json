@@ -1,6 +1,8 @@
 {
   "version": 2,
   "name": "whatsapp-mcp-server",
+  "buildCommand": "echo 'No build needed for API-only deployment'",
+  "installCommand": "npm install --production=false --no-optional @vercel/node typescript @types/node",
   "routes": [
     {
       "src": "/api/(.*)",
@@ -12,18 +14,15 @@
     }
   ],
   "env": {
-    "SESSION_PATH": "/tmp/.wwebjs_auth",
-    "QUEUE_DB_PATH": "/tmp/queue.json",
-    "MIN_DELAY": "5000",
-    "MAX_DELAY": "15000",
-    "MAX_RETRIES": "3",
-    "MESSAGES_PER_MINUTE": "10",
     "NODE_ENV": "production"
   },
   "functions": {
     "api/**/*.ts": {
-      "maxDuration": 60,
-      "memory": 1024
+      "maxDuration": 10,
+      "memory": 512
     }
+  },
+  "github": {
+    "silent": true
   }
 }
