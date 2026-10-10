@@ -5,6 +5,8 @@
 
 A Model Context Protocol (MCP) server for WhatsApp integration with QR-based authentication, message queue management, and rate limiting. Perfect for deploying on Vercel and integrating with ChatGPT and Claude.
 
+> **Note:** For local development, use `package.local.json` (rename to `package.json`). The current `package.json` is minimal for Vercel deployment only.
+
 ## Features
 
 ✨ **Core Features:**

@@ -1,8 +1,6 @@
 {
   "version": 2,
   "name": "whatsapp-mcp-server",
-  "buildCommand": "echo 'No build needed for API-only deployment'",
-  "installCommand": "npm install --production=false --no-optional @vercel/node typescript @types/node",
   "routes": [
     {
       "src": "/api/(.*)",
@@ -13,16 +11,10 @@
       "dest": "/api/index"
     }
   ],
-  "env": {
-    "NODE_ENV": "production"
-  },
   "functions": {
     "api/**/*.ts": {
       "maxDuration": 10,
       "memory": 512
     }
-  },
-  "github": {
-    "silent": true
   }
 }
