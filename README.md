@@ -1,5 +1,8 @@
 # WhatsApp MCP Server
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/theaathish/whatsapp_qr_mcp)
+[![Live Demo](https://img.shields.io/badge/demo-live-success)](https://whatsappqrmcp.vercel.app)
+
 A Model Context Protocol (MCP) server for WhatsApp integration with QR-based authentication, message queue management, and rate limiting. Perfect for deploying on Vercel and integrating with ChatGPT and Claude.
 
 ## Features
