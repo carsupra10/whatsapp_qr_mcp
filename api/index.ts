@@ -25,24 +25,24 @@ export default async function handler(
       version: '1.0.0',
       status: 'running',
       description: 'WhatsApp MCP Server with QR authentication and queue management',
+      important: '⚠️ This Vercel deployment is for documentation only. WhatsApp cannot run on serverless platforms.',
+      quickStart: 'Visit /api/connect for setup instructions',
       endpoints: {
-        health: '/api/health',
-        qr: '/api/qr',
-        connect: '/api/connect',
-        auth: '/api/auth',
-        send: '/api/send',
-        chats: '/api/chats',
-        contacts: '/api/contacts',
-        queue: '/api/queue',
-        analytics: '/api/analytics',
+        connect: '/api/connect - Setup instructions and deployment options',
+        health: '/api/health - Service health check',
+        qr: '/api/qr - QR code information (explains limitations)',
+      },
+      deploymentOptions: {
+        local: 'Run locally with Claude Desktop (Recommended)',
+        vps: 'Deploy to VPS for production ($5-10/month)',
+        docker: 'Run in Docker container',
       },
       documentation: 'https://github.com/theaathish/whatsapp_qr_mcp',
-      usage: {
-        claude: 'Use MCP protocol with Claude Desktop',
-        chatgpt: 'Use HTTP API endpoints with Custom GPT',
-        local: 'Run locally with npm start',
+      guides: {
+        connection: 'https://github.com/theaathish/whatsapp_qr_mcp/blob/main/CONNECT_WHATSAPP.md',
+        deployment: 'https://github.com/theaathish/whatsapp_qr_mcp/blob/main/DEPLOYMENT.md',
+        whyVercelFails: 'https://github.com/theaathish/whatsapp_qr_mcp/blob/main/WHY_VERCEL_FAILS.md',
       },
-      note: 'For MCP usage with Claude Desktop, run this locally. For HTTP API, use the /api/* endpoints.',
     });
     return;
   }
