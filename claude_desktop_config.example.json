@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "whatsapp": {
+      "command": "node",
+      "args": [
+        "/absolute/path/to/whatsapp-mcp/dist/index.js"
+      ],
+      "env": {
+        "SESSION_PATH": "/absolute/path/to/whatsapp-mcp/.wwebjs_auth",
+        "QUEUE_DB_PATH": "/absolute/path/to/whatsapp-mcp/queue.json",
+        "MIN_DELAY": "5000",
+        "MAX_DELAY": "15000",
+        "MAX_RETRIES": "3",
+        "MESSAGES_PER_MINUTE": "10"
+      }
+    }
+  }
+}

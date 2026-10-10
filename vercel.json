@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "name": "whatsapp-mcp-server",
+  "builds": [
+    {
+      "src": "dist/index.js",
+      "use": "@vercel/node",
+      "config": {
+        "maxLambdaSize": "50mb"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "dist/index.js"
+    }
+  ],
+  "env": {
+    "SESSION_PATH": "/tmp/.wwebjs_auth",
+    "QUEUE_DB_PATH": "/tmp/queue.json",
+    "MIN_DELAY": "5000",
+    "MAX_DELAY": "15000",
+    "MAX_RETRIES": "3",
+    "MESSAGES_PER_MINUTE": "10"
+  }
+}
