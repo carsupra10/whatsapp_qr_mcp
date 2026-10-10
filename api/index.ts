@@ -27,6 +27,8 @@ export default async function handler(
       description: 'WhatsApp MCP Server with QR authentication and queue management',
       endpoints: {
         health: '/api/health',
+        qr: '/api/qr',
+        connect: '/api/connect',
         auth: '/api/auth',
         send: '/api/send',
         chats: '/api/chats',

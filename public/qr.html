@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp QR Code - Connect Your Account</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .qr-container {
+            background: #f5f5f5;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .qr-code {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-weight: 500;
+        }
+        .status.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status.qr_ready {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status.authenticated {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        .status.failed {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .loading {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .instructions {
+            text-align: left;
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        .instructions h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .instructions ol {
+            margin-left: 20px;
+        }
+        .instructions li {
+            margin: 10px 0;
+            color: #555;
+            line-height: 1.6;
+        }
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            text-align: left;
+            font-size: 13px;
+            color: #856404;
+        }
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #5568d3;
+        }
+        .note {
+            font-size: 12px;
+            color: #888;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔗 Connect WhatsApp</h1>
+        <p class="subtitle">Scan QR code to link your WhatsApp account</p>
+        
+        <div id="status" class="status pending">
+            Initializing...
+        </div>
+        
+        <div class="qr-container">
+            <div id="qr-display">
+                <div class="loading"></div>
+                <p style="color: #666; margin-top: 20px;">Loading QR code...</p>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>📱 How to Connect:</h3>
+            <ol>
+                <li>Open <strong>WhatsApp</strong> on your phone</li>
+                <li>Go to <strong>Settings</strong> → <strong>Linked Devices</strong></li>
+                <li>Tap <strong>"Link a Device"</strong></li>
+                <li>Scan the QR code shown above</li>
+                <li>Wait for connection to complete</li>
+            </ol>
+        </div>
+
+        <div class="warning">
+            ⚠️ <strong>Note:</strong> This Vercel deployment is for demo purposes. Sessions are temporary and will be lost on redeployment. For production use, deploy to a VPS with persistent storage.
+        </div>
+
+        <button class="btn" onclick="refresh()">🔄 Refresh QR Code</button>
+
+        <p class="note">
+            For local use with Claude Desktop, see 
+            <a href="https://github.com/theaathish/whatsapp_qr_mcp" target="_blank">documentation</a>
+        </p>
+    </div>
+
+    <script>
+        async function fetchQR() {
+            try {
+                const response = await fetch('/api/qr');
+                const data = await response.json();
+                
+                updateStatus(data.status, data.message);
+                
+                if (data.qrCode) {
+                    document.getElementById('qr-display').innerHTML = `
+                        <img src="${data.qrCode}" alt="QR Code" class="qr-code">
+                    `;
+                } else if (data.status === 'authenticated') {
+                    document.getElementById('qr-display').innerHTML = `
+                        <div style="font-size: 60px; color: #28a745;">✅</div>
+                        <p style="color: #28a745; font-weight: 600; margin-top: 20px;">Connected Successfully!</p>
+                    `;
+                } else if (data.status === 'pending') {
+                    // Keep loading
+                    setTimeout(fetchQR, 3000);
+                }
+            } catch (error) {
+                document.getElementById('qr-display').innerHTML = `
+                    <div style="color: #dc3545;">
+                        <div style="font-size: 40px;">❌</div>
+                        <p style="margin-top: 15px;">Failed to load QR code</p>
+                        <p style="font-size: 12px; margin-top: 10px; color: #666;">
+                            This may be due to Vercel limitations. Try refreshing or use local deployment.
+                        </p>
+                    </div>
+                `;
+                updateStatus('failed', 'Failed to initialize WhatsApp client');
+            }
+        }
+
+        function updateStatus(status, message) {
+            const statusEl = document.getElementById('status');
+            statusEl.className = `status ${status}`;
+            statusEl.textContent = message || 'Loading...';
+        }
+
+        function refresh() {
+            location.reload();
+        }
+
+        // Start fetching QR code
+        fetchQR();
+        
+        // Poll for updates every 5 seconds
+        setInterval(fetchQR, 5000);
+    </script>
+</body>
+</html>
