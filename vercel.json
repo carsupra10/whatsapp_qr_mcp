@@ -3,17 +3,18 @@
   "name": "whatsapp-mcp-server",
   "builds": [
     {
-      "src": "dist/index.js",
-      "use": "@vercel/node",
-      "config": {
-        "maxLambdaSize": "50mb"
-      }
+      "src": "api/**/*.ts",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
       "src": "/(.*)",
-      "dest": "dist/index.js"
+      "dest": "/api/index"
     }
   ],
   "env": {
@@ -22,6 +23,13 @@
     "MIN_DELAY": "5000",
     "MAX_DELAY": "15000",
     "MAX_RETRIES": "3",
-    "MESSAGES_PER_MINUTE": "10"
+    "MESSAGES_PER_MINUTE": "10",
+    "NODE_ENV": "production"
+  },
+  "functions": {
+    "api/**/*.ts": {
+      "maxDuration": 60,
+      "memory": 1024
+    }
   }
 }
